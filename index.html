@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yosef Mehari | Full-Stack Web Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-hover: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(255, 119, 68, 0.45);
+      --accent: #ff7744;
+      --accent-glow: rgba(255, 119, 68, 0.22);
+      --accent-soft: rgba(255, 119, 68, 0.1);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient cursor tracker */
+    #cursor-glow {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      filter: blur(80px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Sticky Navigation */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(7, 9, 14, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #10b981;
+      display: inline-block;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    .nav-btn {
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent);
+      color: var(--accent) !important;
+    }
+
+    /* Page Container */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 6rem;
+      padding-bottom: 4rem;
+      gap: 3.5rem;
+    }
+
+    .hero-content {
+      flex: 1.1;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .status-pill .indicator {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.6rem, 5.2vw, 4.3rem);
+      line-height: 1.1;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.12rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 2.2rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0.85rem 1.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 10px 30px -5px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      background: #ff6026;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 35px -5px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--card-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Portrait Visual Card */
+    .hero-image-wrap {
+      flex: 0.9;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-image-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #11141d;
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.85);
+      max-width: 440px;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-image-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 25px 50px -10px var(--accent-glow), 0 0 25px rgba(255, 119, 68, 0.2);
+      border-color: var(--border-focus);
+    }
+
+    .hero-image-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .hero-image-card:hover img {
+      transform: scale(1.03);
+    }
+
+    /* Subtle dark cinematic overlay */
+    .hero-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7, 9, 14, 0.15) 0%, rgba(7, 9, 14, 0.45) 60%, rgba(7, 9, 14, 0.85) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-image-badge {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 1.25rem;
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: #cbd5e1;
+      z-index: 2;
+    }
+
+    /* Section Styles */
+    section {
+      padding: 7rem 0;
+    }
+
+    .section-header {
+      margin-bottom: 4rem;
+    }
+
+    .section-tag {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      margin-top: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 2.2rem 1.8rem;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .skill-card:hover {
+      border-color: var(--border-focus);
+      background: var(--card-hover);
+      transform: translateY(-4px);
+    }
+
+    .skill-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .skill-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* Projects Showcase */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.35s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .project-preview {
+      height: 200px;
+      background: #0f131d;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mockup-window {
+      width: 88%;
+      height: 82%;
+      border-radius: 10px;
+      background: #141824;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6);
+    }
+
+    .mockup-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 0.2rem;
+    }
+
+    .mockup-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .mockup-dot.d-red { background: #ef4444; }
+    .mockup-dot.d-yellow { background: #f59e0b; }
+    .mockup-dot.d-green { background: #10b981; }
+
+    .mockup-line {
+      height: 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .project-info {
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .project-info h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.35rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .project-info p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .tech-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.65rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .project-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-top: auto;
+    }
+
+    .project-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .project-links a:hover {
+      color: #ff9366;
+      transform: translateX(2px);
+    }
+
+    .project-links a.live-link {
+      color: #10b981;
+    }
+
+    .project-links a.live-link:hover {
+      color: #34d399;
+    }
+
+    .live-dot-pulse {
+      width: 7px;
+      height: 7px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+      display: inline-block;
+    }
+
+    /* Contact Section */
+    .contact-card {
+      background: linear-gradient(135deg, rgba(255, 119, 68, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+      border: 1px solid var(--border-focus);
+      border-radius: 24px;
+      padding: 4.5rem 2rem;
+      text-align: center;
+    }
+
+    .contact-card h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-card p {
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto 2.2rem auto;
+      font-size: 1.05rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding-top: 8rem;
+      }
+      .hero p {
+        margin: 0 auto 2.2rem auto;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      header {
+        padding: 1.2rem 1.5rem;
+      }
+      nav a {
+        display: none;
+      }
+      nav .nav-btn {
+        display: inline-block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="cursor-glow"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      &lt;Yosef<span>/&gt;</span>
+      <span class="status-dot" title="Available for hire"></span>
+    </div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#skills">Stack</a>
+      <a href="#projects">Work</a>
+      <a href="#contact" class="nav-btn">Get In Touch</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="about">
+      <div class="hero-content">
+        <div class="status-pill">
+          <span class="indicator"></span>
+          Full-Stack Web Application Developer
+        </div>
+        <h1>Architecting <span class="gradient-text">production-grade</span> digital systems.</h1>
+        <p>
+          Specialized in scalable full-stack web applications: from interactive reactive interfaces down to resilient database architectures, secure APIs, and real-time workflows.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">Explore Work &rarr;</a>
+          <a href="#contact" class="btn btn-secondary">Let's Connect</a>
+        </div>
+      </div>
+
+      <!-- Hero Visual Representation -->
+      <div class="hero-image-wrap">
+        <div class="hero-image-card">
+          <img src="profile.jpg" alt="Yosef - Full-Stack Developer" />
+          <div class="hero-image-overlay"></div>
+          <div class="hero-image-badge">// Full Stack Engineer &bull; Next.js &bull; Node.js</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+      <div class="section-header">
+        <span class="section-tag">// Core Stack</span>
+        <h2>Technical Architecture &amp; Capabilities</h2>
+        <p>A proven set of technologies for building high-performance modern web apps.</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3>Frontend Engineering</h3>
+          <p>React, Next.js App Router, TypeScript, Tailwind CSS, Responsive Design, State Management.</p>
+        </div>
+        <div class="skill-card">
+          <h3>Backend &amp; APIs</h3>
+          <p>Node.js, Express, RESTful APIs, Server Actions, WebSocket real-time event handling.</p>
+        </div>
+        <div class="skill-card">
+          <h3>Databases &amp; ORM</h3>
+          <p>PostgreSQL, Prisma ORM, Redis caching, structured indexing, and data modeling.</p>
+        </div>
+        <div class="skill-card">
+          <h3>DevOps &amp; Cloud</h3>
+          <p>Docker containerization, CI/CD automated deployments, Git workflows, and Vercel hosting.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <div class="section-header">
+        <span class="section-tag">// Showcase</span>
+        <h2>Featured Applications</h2>
+        <p>Real-world projects demonstrating full-stack architecture and production execution.</p>
+      </div>
+
+      <div class="projects-grid">
+        <!-- Project 1: QETABET -->
+        <div class="project-card">
+          <div class="project-preview">
+            <div class="mockup-window">
+              <div class="mockup-bar">
+                <span class="mockup-dot d-red"></span>
+                <span class="mockup-dot d-yellow"></span>
+                <span class="mockup-dot d-green"></span>
+              </div>
+              <div class="mockup-line" style="width: 55%;"></div>
+              <div class="mockup-line" style="width: 80%; opacity: 0.35;"></div>
+              <div class="mockup-line" style="width: 92%; opacity: 0.2; height: 30px; margin-top: 8px;"></div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3>QETABET</h3>
+            <p>Full-stack productivity &amp; record-keeping system built for seamless data workflows, responsive UI, and secure record management.</p>
+            <div class="tech-stack">
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">PostgreSQL</span>
+              <span class="tech-tag">Prisma</span>
+              <span class="tech-tag">Tailwind CSS</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yosefmehari/QETABET" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: NeuMart -->
+        <div class="project-card">
+          <div class="project-preview">
+            <div class="mockup-window">
+              <div class="mockup-bar">
+                <span class="mockup-dot d-red"></span>
+                <span class="mockup-dot d-yellow"></span>
+                <span class="mockup-dot d-green"></span>
+              </div>
+              <div class="mockup-line" style="width: 40%;"></div>
+              <div class="mockup-line" style="width: 65%; opacity: 0.4;"></div>
+              <div class="mockup-line" style="width: 95%; opacity: 0.2; height: 30px; margin-top: 8px;"></div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3>NeuMart</h3>
+            <p>Modern e-commerce storefront featuring dynamic product catalogs, optimized cart management, and fluid responsive design.</p>
+            <div class="tech-stack">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Tailwind CSS</span>
+            </div>
+            <div class="project-links">
+              <a href="https://neu-mart.vercel.app" target="_blank" rel="noopener noreferrer" class="live-link">
+                <span class="live-dot-pulse"></span> Live Demo &nearr;
+              </a>
+              <a href="https://github.com/yosefmehari/NeuMart" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: LaunchFlow -->
+        <div class="project-card">
+          <div class="project-preview">
+            <div class="mockup-window">
+              <div class="mockup-bar">
+                <span class="mockup-dot d-red"></span>
+                <span class="mockup-dot d-yellow"></span>
+                <span class="mockup-dot d-green"></span>
+              </div>
+              <div class="mockup-line" style="width: 60%;"></div>
+              <div class="mockup-line" style="width: 75%; opacity: 0.35;"></div>
+              <div class="mockup-line" style="width: 85%; opacity: 0.2; height: 30px; margin-top: 8px;"></div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3>LaunchFlow</h3>
+            <p>Cloud workflow automation and developer orchestration pipeline designed for automated task handling and API integration.</p>
+            <div class="tech-stack">
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">Express</span>
+              <span class="tech-tag">REST APIs</span>
+              <span class="tech-tag">Docker</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yosefmehari/LaunchFlow" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: Building the Mind -->
+        <div class="project-card">
+          <div class="project-preview">
+            <div class="mockup-window">
+              <div class="mockup-bar">
+                <span class="mockup-dot d-red"></span>
+                <span class="mockup-dot d-yellow"></span>
+                <span class="mockup-dot d-green"></span>
+              </div>
+              <div class="mockup-line" style="width: 50%;"></div>
+              <div class="mockup-line" style="width: 70%; opacity: 0.35;"></div>
+              <div class="mockup-line" style="width: 88%; opacity: 0.2; height: 30px; margin-top: 8px;"></div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3>Building the Mind</h3>
+            <p>Interactive knowledge platform and technical documentation hub engineered with structured content hierarchies and clean UI aesthetics.</p>
+            <div class="tech-stack">
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">Markdown</span>
+              <span class="tech-tag">Modern CSS</span>
+              <span class="tech-tag">Web Architecture</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yosefmehari/building-the-mind" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 5: Shopping Clothes -->
+        <div class="project-card">
+          <div class="project-preview">
+            <div class="mockup-window">
+              <div class="mockup-bar">
+                <span class="mockup-dot d-red"></span>
+                <span class="mockup-dot d-yellow"></span>
+                <span class="mockup-dot d-green"></span>
+              </div>
+              <div class="mockup-line" style="width: 48%;"></div>
+              <div class="mockup-line" style="width: 68%; opacity: 0.35;"></div>
+              <div class="mockup-line" style="width: 90%; opacity: 0.2; height: 30px; margin-top: 8px;"></div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3>Shopping Clothes</h3>
+            <p>Sleek apparel retail web application featuring category filtering, interactive product views, and cart state synchronization.</p>
+            <div class="tech-stack">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">JavaScript</span>
+              <span class="tech-tag">Tailwind CSS</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yosefmehari/shopping-clothes" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="contact-card">
+        <h2>Ready to build something exceptional?</h2>
+        <p>Currently open to full-stack engineering roles, freelance contracts, and collaborative software projects.</p>
+        <a href="mailto:your.email@example.com" class="btn btn-primary">Start a Conversation &rarr;</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Yosef. Built with clean code, modern typography, and responsive architecture.</p>
+  </footer>
+
+  <script>
+    // Smooth dynamic ambient cursor light
+    const cursor = document.getElementById('cursor-glow');
+    window.addEventListener('mousemove', (e) => {
+      cursor.style.opacity = '1';
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    });
+    window.addEventListener('mouseleave', () => {
+      cursor.style.opacity = '0';
+    });
+  </script>
+</body>
+</html>
