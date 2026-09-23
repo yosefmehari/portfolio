@@ -4,21 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Yosef Mehari | Full-Stack Web Developer</title>
+  
+  <!-- SEO & Social Meta Tags -->
+  <meta name="description" content="Portfolio of Yosef Mehari, a Full-Stack Web Developer specializing in React, Next.js, TypeScript, Node.js, PostgreSQL, and scalable digital architectures." />
+  <meta name="keywords" content="Yosef Mehari, Full-Stack Developer, Next.js, React, Node.js, TypeScript, PostgreSQL, Prisma, Tailwind CSS, Portfolio" />
+  <meta name="author" content="Yosef Mehari" />
+  <meta property="og:title" content="Yosef Mehari | Full-Stack Web Developer" />
+  <meta property="og:description" content="Architecting production-grade digital systems with Next.js, React, Node.js, and modern relational databases." />
+  <meta property="og:type" content="website" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2307090e'/><text x='50%' y='68%' font-size='60' font-family='monospace' font-weight='900' fill='%23ff7744' text-anchor='middle'>Y</text></svg>">
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --bg: #07090e;
       --card-bg: rgba(255, 255, 255, 0.03);
-      --card-hover: rgba(255, 255, 255, 0.06);
+      --card-hover: rgba(255, 255, 255, 0.065);
       --border: rgba(255, 255, 255, 0.08);
-      --border-focus: rgba(255, 119, 68, 0.45);
+      --border-focus: rgba(255, 119, 68, 0.5);
       --accent: #ff7744;
-      --accent-glow: rgba(255, 119, 68, 0.22);
-      --accent-soft: rgba(255, 119, 68, 0.1);
+      --accent-glow: rgba(255, 119, 68, 0.25);
+      --accent-soft: rgba(255, 119, 68, 0.12);
       --text: #f1f5f9;
-      --muted: #94a3b8;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.25);
     }
 
     * {
@@ -29,6 +46,7 @@
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 5rem;
     }
 
     body {
@@ -38,9 +56,10 @@
       line-height: 1.6;
       overflow-x: hidden;
       position: relative;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Ambient cursor tracker */
+    /* Ambient cursor tracker for non-touch devices */
     #cursor-glow {
       position: fixed;
       width: 500px;
@@ -48,11 +67,18 @@
       border-radius: 50%;
       background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
       pointer-events: none;
-      transform: translate(-50%, -50%);
+      transform: translate3d(-50%, -50%, 0);
       z-index: 0;
       filter: blur(80px);
       opacity: 0;
       transition: opacity 0.3s ease;
+      will-change: transform, left, top;
+    }
+
+    @media (hover: none) {
+      #cursor-glow {
+        display: none !important;
+      }
     }
 
     /* Sticky Navigation */
@@ -61,24 +87,28 @@
       top: 0;
       left: 0;
       width: 100%;
-      padding: 1.25rem 2.5rem;
+      padding: 1.15rem 2.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(7, 9, 14, 0.8);
+      background: rgba(7, 9, 14, 0.85);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       z-index: 100;
+      transition: all 0.3s ease;
     }
 
     .logo {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       letter-spacing: -0.5px;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
+      text-decoration: none;
+      color: var(--text);
     }
 
     .logo span {
@@ -88,40 +118,168 @@
     .status-dot {
       width: 8px;
       height: 8px;
-      background: #10b981;
+      background: var(--success);
       border-radius: 50%;
-      box-shadow: 0 0 10px #10b981;
+      box-shadow: 0 0 10px var(--success);
       display: inline-block;
+      animation: pulse-dot 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(0.9); }
     }
 
     nav {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: 1.8rem;
     }
 
     nav a {
-      color: var(--muted);
+      color: var(--text-muted);
       text-decoration: none;
       font-size: 0.95rem;
       font-weight: 500;
-      transition: color 0.2s;
+      transition: color 0.2s ease, transform 0.2s ease;
+      position: relative;
     }
 
-    nav a:hover {
+    nav a:hover,
+    nav a.active {
       color: var(--text);
     }
 
+    nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
     .nav-btn {
-      padding: 0.5rem 1.2rem;
-      border-radius: 6px;
-      font-size: 0.85rem;
+      padding: 0.55rem 1.3rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
       background: var(--accent-soft);
       border: 1px solid var(--accent);
       color: var(--accent) !important;
+      transition: all 0.25s ease !important;
     }
 
-    /* Page Container */
+    .nav-btn:hover {
+      background: var(--accent);
+      color: #fff !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    /* Mobile Hamburger Menu Toggle */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 101;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .mobile-menu-btn.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .mobile-menu-btn.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-btn.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Mobile Drawer */
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 320px;
+      height: 100vh;
+      background: rgba(11, 15, 23, 0.98);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-left: 1px solid var(--border);
+      padding: 6rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      z-index: 99;
+      transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+    }
+
+    .mobile-drawer.open {
+      right: 0;
+    }
+
+    .mobile-drawer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 1.15rem;
+      font-weight: 600;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: color 0.2s;
+    }
+
+    .mobile-drawer a:hover,
+    .mobile-drawer a.active {
+      color: var(--accent);
+    }
+
+    .mobile-drawer .drawer-cta {
+      margin-top: 1rem;
+      text-align: center;
+      padding: 0.85rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .mobile-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 98;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Main Layout Container */
     main {
       position: relative;
       z-index: 1;
@@ -130,72 +288,7 @@
       padding: 0 2rem;
     }
 
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 6rem;
-      padding-bottom: 4rem;
-      gap: 3.5rem;
-    }
-
-    .hero-content {
-      flex: 1.1;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.4rem 1rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-    }
-
-    .status-pill .indicator {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    .hero h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.6rem, 5.2vw, 4.3rem);
-      line-height: 1.1;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      letter-spacing: -1px;
-    }
-
-    .hero h1 .gradient-text {
-      background: linear-gradient(135deg, #ffffff 40%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      font-size: 1.12rem;
-      color: var(--muted);
-      max-width: 540px;
-      margin-bottom: 2.2rem;
-      line-height: 1.7;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
+    /* Common Buttons */
     .btn {
       padding: 0.85rem 1.8rem;
       border-radius: 8px;
@@ -234,9 +327,94 @@
       transform: translateY(-2px);
     }
 
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 6.5rem;
+      padding-bottom: 4rem;
+      gap: 3.5rem;
+    }
+
+    .hero-content {
+      flex: 1.15;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: #cbd5e1;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-pill .indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 10px var(--success);
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.5rem, 4.8vw, 4.2rem);
+      line-height: 1.12;
+      font-weight: 700;
+      margin-bottom: 1.4rem;
+      letter-spacing: -1.2px;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, #ffffff 30%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 1.8rem;
+      line-height: 1.7;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 500;
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
     /* Hero Portrait Visual Card */
     .hero-image-wrap {
-      flex: 0.9;
+      flex: 0.85;
       display: flex;
       justify-content: center;
       position: relative;
@@ -244,19 +422,19 @@
 
     .hero-image-card {
       position: relative;
-      border-radius: 20px;
+      border-radius: 22px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       background: #11141d;
       box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.85);
-      max-width: 440px;
+      max-width: 380px;
       width: 100%;
       aspect-ratio: 4 / 5;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .hero-image-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-5px);
       box-shadow: 0 25px 50px -10px var(--accent-glow), 0 0 25px rgba(255, 119, 68, 0.2);
       border-color: var(--border-focus);
     }
@@ -265,19 +443,19 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center 20%;
       display: block;
-      transition: transform 0.5s ease;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .hero-image-card:hover img {
       transform: scale(1.03);
     }
 
-    /* Subtle dark cinematic overlay */
     .hero-image-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(7, 9, 14, 0.15) 0%, rgba(7, 9, 14, 0.45) 60%, rgba(7, 9, 14, 0.85) 100%);
+      background: linear-gradient(180deg, rgba(7, 9, 14, 0.1) 0%, rgba(7, 9, 14, 0.4) 60%, rgba(7, 9, 14, 0.9) 100%);
       pointer-events: none;
       z-index: 1;
     }
@@ -286,24 +464,29 @@
       position: absolute;
       bottom: 1.25rem;
       left: 1.25rem;
-      background: rgba(7, 9, 14, 0.85);
+      right: 1.25rem;
+      background: rgba(7, 9, 14, 0.88);
       backdrop-filter: blur(12px);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
+      -webkit-backdrop-filter: blur(12px);
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
       border: 1px solid var(--border);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.78rem;
-      color: #cbd5e1;
+      color: #e2e8f0;
       z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    /* Section Styles */
+    /* Section Global Styles */
     section {
-      padding: 7rem 0;
+      padding: 6.5rem 0;
     }
 
     .section-header {
-      margin-bottom: 4rem;
+      margin-bottom: 3.5rem;
     }
 
     .section-tag {
@@ -311,21 +494,90 @@
       color: var(--accent);
       font-size: 0.85rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 0.5rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 0.6rem;
       display: block;
     }
 
     .section-header h2 {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.5rem;
-      letter-spacing: -0.5px;
+      font-size: clamp(2rem, 3.5vw, 2.7rem);
+      letter-spacing: -0.6px;
+      font-weight: 700;
     }
 
     .section-header p {
-      color: var(--muted);
-      margin-top: 0.5rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
       font-size: 1.05rem;
+      max-width: 650px;
+    }
+
+    /* About Section */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 2.5rem;
+      align-items: stretch;
+    }
+
+    .about-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .about-card p {
+      color: #cbd5e1;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 1.4rem;
+    }
+
+    .about-card p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .stat-card:hover {
+      border-color: var(--border-focus);
+      background: var(--card-hover);
+      transform: translateY(-3px);
+    }
+
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
     /* Skills Grid */
@@ -339,8 +591,9 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       padding: 2.2rem 1.8rem;
-      border-radius: 16px;
+      border-radius: 18px;
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       transition: all 0.3s ease;
     }
 
@@ -350,19 +603,74 @@
       transform: translateY(-4px);
     }
 
+    .skill-card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
     .skill-card h3 {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.25rem;
-      margin-bottom: 0.8rem;
+      font-size: 1.28rem;
+      margin-bottom: 0.6rem;
+      font-weight: 600;
     }
 
     .skill-card p {
-      color: var(--muted);
-      font-size: 0.92rem;
+      color: var(--text-muted);
+      font-size: 0.93rem;
       line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .skill-tags span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.25rem 0.6rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 5px;
+      color: #cbd5e1;
     }
 
     /* Projects Showcase */
+    .project-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1.2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -376,27 +684,52 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: all 0.35s ease;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .project-card.featured-card {
+      border-color: rgba(255, 119, 68, 0.35);
+      background: linear-gradient(180deg, rgba(255, 119, 68, 0.03) 0%, rgba(255, 255, 255, 0.02) 100%);
+    }
+
+    .featured-ribbon {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      z-index: 5;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px var(--accent-glow);
     }
 
     .project-card:hover {
       transform: translateY(-6px);
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.22);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
     }
 
     .project-preview {
-      height: 200px;
+      height: 205px;
       background: #0f131d;
       border-bottom: 1px solid var(--border);
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
+    /* Mockup window inside preview */
     .mockup-window {
       width: 88%;
-      height: 82%;
+      height: 84%;
       border-radius: 10px;
       background: #141824;
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -405,6 +738,11 @@
       flex-direction: column;
       gap: 0.6rem;
       box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6);
+      transition: transform 0.4s ease;
+    }
+
+    .project-card:hover .mockup-window {
+      transform: scale(1.02);
     }
 
     .mockup-bar {
@@ -427,7 +765,78 @@
     .mockup-line {
       height: 6px;
       border-radius: 4px;
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    /* Custom visual representations for mockups */
+    .mockup-qr-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .mockup-qr-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      height: 48px;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .mockup-qr-item span {
+      display: block;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .mockup-qr-item .mockup-price {
+      width: 40%;
+      background: var(--accent);
+      opacity: 0.8;
+    }
+
+    .mockup-ecom-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 8px;
+      margin-top: 6px;
+      height: 60px;
+    }
+
+    .mockup-hero-box {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 6px;
+    }
+
+    .mockup-cart-box {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 6px;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .mockup-console {
+      background: #090c13;
+      border-radius: 6px;
+      padding: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #38bdf8;
+      margin-top: 4px;
+      height: 62px;
+      overflow: hidden;
+      line-height: 1.4;
     }
 
     .project-info {
@@ -437,34 +846,45 @@
       flex-grow: 1;
     }
 
+    .project-type-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
     .project-info h3 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.35rem;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.65rem;
+      font-weight: 700;
     }
 
     .project-info p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      margin-bottom: 1.4rem;
       flex-grow: 1;
+      line-height: 1.6;
     }
 
     .tech-stack {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.45rem;
       margin-bottom: 1.6rem;
     }
 
     .tech-tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      padding: 0.3rem 0.65rem;
-      background: rgba(255, 255, 255, 0.05);
+      font-size: 0.74rem;
+      padding: 0.25rem 0.6rem;
+      background: rgba(255, 255, 255, 0.04);
       border-radius: 6px;
       color: #94a3b8;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .project-links {
@@ -473,6 +893,8 @@
       flex-wrap: wrap;
       gap: 1.2rem;
       margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .project-links a {
@@ -488,11 +910,11 @@
 
     .project-links a:hover {
       color: #ff9366;
-      transform: translateX(2px);
+      transform: translateX(3px);
     }
 
     .project-links a.live-link {
-      color: #10b981;
+      color: var(--success);
     }
 
     .project-links a.live-link:hover {
@@ -502,82 +924,391 @@
     .live-dot-pulse {
       width: 7px;
       height: 7px;
-      background: #10b981;
+      background: var(--success);
       border-radius: 50%;
-      box-shadow: 0 0 8px #10b981;
+      box-shadow: 0 0 8px var(--success);
       display: inline-block;
+      animation: pulse-dot 1.8s infinite;
+    }
+
+    /* Workflow / Engineering Process */
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .workflow-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2.2rem 1.8rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .workflow-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-focus);
+      background: var(--card-hover);
+    }
+
+    .workflow-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .workflow-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.22rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .workflow-card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
     }
 
     /* Contact Section */
-    .contact-card {
-      background: linear-gradient(135deg, rgba(255, 119, 68, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 2.5rem;
+      background: linear-gradient(135deg, rgba(255, 119, 68, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
       border: 1px solid var(--border-focus);
       border-radius: 24px;
-      padding: 4.5rem 2rem;
-      text-align: center;
+      padding: 3.5rem;
     }
 
-    .contact-card h2 {
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .contact-info h2 {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.5rem;
+      font-size: 2.4rem;
       margin-bottom: 1rem;
+      line-height: 1.2;
     }
 
-    .contact-card p {
-      color: var(--muted);
-      max-width: 500px;
-      margin: 0 auto 2.2rem auto;
+    .contact-info p {
+      color: var(--text-muted);
       font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
     }
 
+    .contact-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.25s ease;
+    }
+
+    .contact-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateX(4px);
+    }
+
+    .contact-item-icon {
+      font-size: 1.3rem;
+      color: var(--accent);
+    }
+
+    .contact-item-detail {
+      flex: 1;
+    }
+
+    .contact-item-label {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+
+    .contact-item-val {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #e2e8f0;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      background: rgba(14, 18, 28, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-success-msg {
+      display: none;
+      padding: 0.85rem 1rem;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 8px;
+      color: #34d399;
+      font-size: 0.9rem;
+    }
+
+    /* Floating Back-to-Top Button */
+    #back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(15, 19, 29, 0.85);
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 90;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    #back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #back-to-top:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px var(--accent-glow);
+    }
+
+    /* Footer */
     footer {
       border-top: 1px solid var(--border);
-      padding: 2.5rem 0;
+      padding: 3rem 2rem;
       text-align: center;
-      color: var(--muted);
-      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      background: rgba(7, 9, 14, 0.95);
     }
 
-    /* Responsive */
+    .footer-content {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.8rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive Queries */
+    @media (max-width: 1024px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+      .contact-container {
+        grid-template-columns: 1fr;
+        padding: 2.5rem;
+      }
+    }
+
     @media (max-width: 960px) {
-      .hero {
-        flex-direction: column-reverse;
-        text-align: center;
-        padding-top: 8rem;
-      }
-      .hero p {
-        margin: 0 auto 2.2rem auto;
-      }
-      .hero-actions {
-        justify-content: center;
-      }
       header {
-        padding: 1.2rem 1.5rem;
+        padding: 1.1rem 1.5rem;
       }
       nav a {
         display: none;
       }
-      nav .nav-btn {
-        display: inline-block;
+      .mobile-menu-btn {
+        display: flex;
+      }
+      .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding-top: 7rem;
+        gap: 2.5rem;
+      }
+      .hero p {
+        margin: 0 auto 1.8rem auto;
+      }
+      .hero-tags {
+        justify-content: center;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .hero-image-card {
+        max-width: 320px;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 0 1.25rem;
+      }
+      .contact-container {
+        padding: 1.5rem;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <div id="cursor-glow"></div>
+  <!-- Ambient Cursor Glow Effect -->
+  <div id="cursor-glow" aria-hidden="true"></div>
 
-  <!-- Header -->
+  <!-- Mobile Backdrop & Drawer -->
+  <div class="mobile-backdrop" id="mobile-backdrop" onclick="toggleMobileMenu()"></div>
+  <aside class="mobile-drawer" id="mobile-drawer">
+    <a href="#about" onclick="toggleMobileMenu()">About</a>
+    <a href="#skills" onclick="toggleMobileMenu()">Tech Stack</a>
+    <a href="#projects" onclick="toggleMobileMenu()">Projects</a>
+    <a href="#workflow" onclick="toggleMobileMenu()">Workflow</a>
+    <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+    <a href="https://github.com/yosefmehari" target="_blank" rel="noopener noreferrer">GitHub Profile &nearr;</a>
+    <a href="#contact" class="drawer-cta" onclick="toggleMobileMenu()">Get In Touch</a>
+  </aside>
+
+  <!-- Sticky Header Navigation -->
   <header>
-    <div class="logo">
+    <a href="#about" class="logo">
       &lt;Yosef<span>/&gt;</span>
       <span class="status-dot" title="Available for hire"></span>
-    </div>
+    </a>
+
+    <!-- Desktop Navigation -->
     <nav>
-      <a href="#about">About</a>
-      <a href="#skills">Stack</a>
-      <a href="#projects">Work</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Stack</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#workflow" class="nav-link">Workflow</a>
       <a href="#contact" class="nav-btn">Get In Touch</a>
     </nav>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobile-toggle" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </header>
 
   <main>
@@ -586,24 +1317,81 @@
       <div class="hero-content">
         <div class="status-pill">
           <span class="indicator"></span>
-          Full-Stack Web Application Developer
+          Available for Full-Stack Opportunities
         </div>
         <h1>Architecting <span class="gradient-text">production-grade</span> digital systems.</h1>
         <p>
-          Specialized in scalable full-stack web applications: from interactive reactive interfaces down to resilient database architectures, secure APIs, and real-time workflows.
+          Hi, I'm <strong>Yosef Mehari</strong> — a Full-Stack Web Developer specialized in building scalable, modern web applications: from interactive reactive interfaces down to resilient database architectures, secure APIs, and real-time workflows.
         </p>
+
+        <div class="hero-tags">
+          <span class="hero-tag">Next.js 16</span>
+          <span class="hero-tag">React 19</span>
+          <span class="hero-tag">TypeScript</span>
+          <span class="hero-tag">Node.js</span>
+          <span class="hero-tag">Prisma ORM</span>
+          <span class="hero-tag">PostgreSQL</span>
+          <span class="hero-tag">Tailwind CSS</span>
+        </div>
+
         <div class="hero-actions">
-          <a href="#projects" class="btn btn-primary">Explore Work &rarr;</a>
+          <a href="#projects" class="btn btn-primary">Explore Featured Work &rarr;</a>
           <a href="#contact" class="btn btn-secondary">Let's Connect</a>
+          <a href="https://github.com/yosefmehari" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" title="View GitHub Repositories">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
         </div>
       </div>
 
       <!-- Hero Visual Representation -->
       <div class="hero-image-wrap">
         <div class="hero-image-card">
-          <img src="profile.jpg" alt="Yosef - Full-Stack Developer" />
+          <img src="profile.jpg" alt="Yosef Mehari - Full-Stack Developer" fetchpriority="high" />
           <div class="hero-image-overlay"></div>
-          <div class="hero-image-badge">// Full Stack Engineer &bull; Next.js &bull; Node.js</div>
+          <div class="hero-image-badge">
+            <span>// Yosef Mehari</span>
+            <span>Full-Stack Engineer</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About & Highlights Section -->
+    <section id="about-details">
+      <div class="section-header">
+        <span class="section-tag">// Background &amp; Philosophy</span>
+        <h2>Engineering With Clarity &amp; Rigor</h2>
+        <p>I transform complex functional requirements into responsive, maintainable, and delightful software systems.</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <p>
+            I am a full-stack developer with a passion for software craftsmanship. My focus is on building complete, end-to-end web products — whether designing scalable relational database schemas, engineering authenticated REST APIs, or crafting reactive UI experiences with modern component architectures.
+          </p>
+          <p>
+            Having engineered applications ranging from multi-role restaurant management platforms with live QR ordering to responsive e-commerce storefronts and workflow automation pipelines, I prioritize code cleanliness, type safety, and fast real-world user performance.
+          </p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-num">7+</div>
+            <div class="stat-label">Full-Stack &amp; Frontend Projects</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Mobile &amp; Responsive Perfection</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">Full</div>
+            <div class="stat-label">Stack System Integration</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">&lt;24h</div>
+            <div class="stat-label">Fast Communication &amp; Turnaround</div>
+          </div>
         </div>
       </div>
     </section>
@@ -613,25 +1401,60 @@
       <div class="section-header">
         <span class="section-tag">// Core Stack</span>
         <h2>Technical Architecture &amp; Capabilities</h2>
-        <p>A proven set of technologies for building high-performance modern web apps.</p>
+        <p>A proven set of technologies for building robust, high-performance modern web apps.</p>
       </div>
 
       <div class="skills-grid">
         <div class="skill-card">
+          <div class="skill-card-icon">⚡</div>
           <h3>Frontend Engineering</h3>
-          <p>React, Next.js App Router, TypeScript, Tailwind CSS, Responsive Design, State Management.</p>
+          <p>Developing reactive, high-performance user interfaces with state-of-the-art frameworks and modular design systems.</p>
+          <div class="skill-tags">
+            <span>React 19</span>
+            <span>Next.js App Router</span>
+            <span>TypeScript</span>
+            <span>Tailwind CSS</span>
+            <span>Responsive Layouts</span>
+          </div>
         </div>
+
         <div class="skill-card">
+          <div class="skill-card-icon">⚙️</div>
           <h3>Backend &amp; APIs</h3>
-          <p>Node.js, Express, RESTful APIs, Server Actions, WebSocket real-time event handling.</p>
+          <p>Building secure, scalable backends with RESTful design, server actions, authentication, and event handling.</p>
+          <div class="skill-tags">
+            <span>Node.js</span>
+            <span>Express</span>
+            <span>Server Actions</span>
+            <span>JWT &amp; Jose Auth</span>
+            <span>REST APIs</span>
+          </div>
         </div>
+
         <div class="skill-card">
+          <div class="skill-card-icon">🗄️</div>
           <h3>Databases &amp; ORM</h3>
-          <p>PostgreSQL, Prisma ORM, Redis caching, structured indexing, and data modeling.</p>
+          <p>Architecting reliable relational data schemas, optimized query executions, and seamless data migrations.</p>
+          <div class="skill-tags">
+            <span>PostgreSQL</span>
+            <span>Prisma ORM</span>
+            <span>SQLite</span>
+            <span>Data Modeling</span>
+            <span>Schema Migrations</span>
+          </div>
         </div>
+
         <div class="skill-card">
-          <h3>DevOps &amp; Cloud</h3>
-          <p>Docker containerization, CI/CD automated deployments, Git workflows, and Vercel hosting.</p>
+          <div class="skill-card-icon">🚀</div>
+          <h3>DevOps &amp; Tooling</h3>
+          <p>Ensuring smooth deployment cycles, reproducible environments, and strict version control pipelines.</p>
+          <div class="skill-tags">
+            <span>Docker</span>
+            <span>Git &amp; GitHub</span>
+            <span>Vercel Deployments</span>
+            <span>CI/CD</span>
+            <span>VS Code</span>
+          </div>
         </div>
       </div>
     </section>
@@ -641,12 +1464,140 @@
       <div class="section-header">
         <span class="section-tag">// Showcase</span>
         <h2>Featured Applications</h2>
-        <p>Real-world projects demonstrating full-stack architecture and production execution.</p>
+        <p>Real-world projects demonstrating full-stack architecture, clean code, and production execution.</p>
       </div>
 
-      <div class="projects-grid">
-        <!-- Project 1: QETABET -->
-        <div class="project-card">
+      <!-- Project Filter Pills -->
+      <div class="project-filters">
+        <button class="filter-btn active" onclick="filterProjects('all', this)">All Projects (7)</button>
+        <button class="filter-btn" onclick="filterProjects('fullstack', this)">Full-Stack</button>
+        <button class="filter-btn" onclick="filterProjects('ecommerce', this)">E-Commerce</button>
+        <button class="filter-btn" onclick="filterProjects('systems', this)">Systems &amp; Frontend</button>
+      </div>
+
+      <div class="projects-grid" id="projects-container">
+
+        <!-- Project 1: QR-CAFE (Flagship Full-Stack Project) -->
+        <div class="project-card featured-card" data-category="fullstack">
+          <div class="featured-ribbon">FEATURED</div>
+          <div class="project-preview">
+            <div class="mockup-window">
+              <div class="mockup-bar">
+                <span class="mockup-dot d-red"></span>
+                <span class="mockup-dot d-yellow"></span>
+                <span class="mockup-dot d-green"></span>
+              </div>
+              <div class="mockup-line" style="width: 50%;"></div>
+              <div class="mockup-qr-grid">
+                <div class="mockup-qr-item">
+                  <span style="width: 70%;"></span>
+                  <span class="mockup-price"></span>
+                </div>
+                <div class="mockup-qr-item">
+                  <span style="width: 80%;"></span>
+                  <span class="mockup-price"></span>
+                </div>
+                <div class="mockup-qr-item">
+                  <span style="width: 60%;"></span>
+                  <span class="mockup-price"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="project-type-tag">Full-Stack Platform</span>
+            <h3>QR-CAFE</h3>
+            <p>Modern full-stack restaurant ordering &amp; management platform featuring QR-code customer ordering, PostgreSQL database with Prisma ORM, and dedicated multi-role staff dashboards (Admin, Chef, Delivery, Waiter).</p>
+            <div class="tech-stack">
+              <span class="tech-tag">Next.js 16</span>
+              <span class="tech-tag">React 19</span>
+              <span class="tech-tag">Prisma ORM</span>
+              <span class="tech-tag">PostgreSQL</span>
+              <span class="tech-tag">Tailwind CSS</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Jose Auth</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yosefmehari/QR-CAFE" target="_blank" rel="noopener noreferrer">GitHub Repository &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: NeuMart (E-Commerce Live Project) -->
+        <div class="project-card" data-category="fullstack ecommerce">
+          <div class="project-preview">
+            <div class="mockup-window">
+              <div class="mockup-bar">
+                <span class="mockup-dot d-red"></span>
+                <span class="mockup-dot d-yellow"></span>
+                <span class="mockup-dot d-green"></span>
+              </div>
+              <div class="mockup-ecom-grid">
+                <div class="mockup-hero-box">
+                  <div class="mockup-line" style="width: 70%; margin-bottom: 6px;"></div>
+                  <div class="mockup-line" style="width: 40%; opacity: 0.5;"></div>
+                </div>
+                <div class="mockup-cart-box">
+                  <span style="font-size: 0.7rem; font-weight: bold; color: #10b981;">CART (3)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="project-type-tag">E-Commerce Web App</span>
+            <h3>NeuMart</h3>
+            <p>Modern e-commerce storefront featuring dynamic product catalogs, optimized cart management, and fluid responsive design deployed on Vercel.</p>
+            <div class="tech-stack">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Tailwind CSS</span>
+              <span class="tech-tag">Vercel</span>
+            </div>
+            <div class="project-links">
+              <a href="https://neu-mart.vercel.app" target="_blank" rel="noopener noreferrer" class="live-link">
+                <span class="live-dot-pulse"></span> Live Demo &nearr;
+              </a>
+              <a href="https://github.com/yosefmehari/NeuMart" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: LaunchFlow -->
+        <div class="project-card" data-category="systems">
+          <div class="project-preview">
+            <div class="mockup-window">
+              <div class="mockup-bar">
+                <span class="mockup-dot d-red"></span>
+                <span class="mockup-dot d-yellow"></span>
+                <span class="mockup-dot d-green"></span>
+              </div>
+              <div class="mockup-console">
+                $ launchflow deploy --prod<br/>
+                &gt; Build container [OK]<br/>
+                &gt; Pipeline synced: 200 OK
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <span class="project-type-tag">Cloud Automation</span>
+            <h3>LaunchFlow</h3>
+            <p>Developer workflow automation and orchestration pipeline designed for automated task handling, API integrations, and cloud task scheduling.</p>
+            <div class="tech-stack">
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">Express</span>
+              <span class="tech-tag">REST APIs</span>
+              <span class="tech-tag">Docker</span>
+              <span class="tech-tag">JavaScript</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yosefmehari/LaunchFlow" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: QETABET -->
+        <div class="project-card" data-category="fullstack">
           <div class="project-preview">
             <div class="mockup-window">
               <div class="mockup-bar">
@@ -656,12 +1607,13 @@
               </div>
               <div class="mockup-line" style="width: 55%;"></div>
               <div class="mockup-line" style="width: 80%; opacity: 0.35;"></div>
-              <div class="mockup-line" style="width: 92%; opacity: 0.2; height: 30px; margin-top: 8px;"></div>
+              <div class="mockup-line" style="width: 92%; opacity: 0.2; height: 26px; margin-top: 6px;"></div>
             </div>
           </div>
           <div class="project-info">
+            <span class="project-type-tag">Productivity &amp; Records</span>
             <h3>QETABET</h3>
-            <p>Full-stack productivity &amp; record-keeping system built for seamless data workflows, responsive UI, and secure record management.</p>
+            <p>Full-stack productivity &amp; record-keeping system built for seamless data workflows, responsive UI, structured querying, and secure record management.</p>
             <div class="tech-stack">
               <span class="tech-tag">Next.js</span>
               <span class="tech-tag">TypeScript</span>
@@ -675,8 +1627,8 @@
           </div>
         </div>
 
-        <!-- Project 2: NeuMart -->
-        <div class="project-card">
+        <!-- Project 5: SuperMarket POS & Store -->
+        <div class="project-card" data-category="ecommerce systems">
           <div class="project-preview">
             <div class="mockup-window">
               <div class="mockup-bar">
@@ -684,60 +1636,37 @@
                 <span class="mockup-dot d-yellow"></span>
                 <span class="mockup-dot d-green"></span>
               </div>
-              <div class="mockup-line" style="width: 40%;"></div>
-              <div class="mockup-line" style="width: 65%; opacity: 0.4;"></div>
-              <div class="mockup-line" style="width: 95%; opacity: 0.2; height: 30px; margin-top: 8px;"></div>
-            </div>
-          </div>
-          <div class="project-info">
-            <h3>NeuMart</h3>
-            <p>Modern e-commerce storefront featuring dynamic product catalogs, optimized cart management, and fluid responsive design.</p>
-            <div class="tech-stack">
-              <span class="tech-tag">React</span>
-              <span class="tech-tag">Next.js</span>
-              <span class="tech-tag">TypeScript</span>
-              <span class="tech-tag">Tailwind CSS</span>
-            </div>
-            <div class="project-links">
-              <a href="https://neu-mart.vercel.app" target="_blank" rel="noopener noreferrer" class="live-link">
-                <span class="live-dot-pulse"></span> Live Demo &nearr;
-              </a>
-              <a href="https://github.com/yosefmehari/NeuMart" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 3: LaunchFlow -->
-        <div class="project-card">
-          <div class="project-preview">
-            <div class="mockup-window">
-              <div class="mockup-bar">
-                <span class="mockup-dot d-red"></span>
-                <span class="mockup-dot d-yellow"></span>
-                <span class="mockup-dot d-green"></span>
+              <div class="mockup-line" style="width: 65%;"></div>
+              <div class="mockup-qr-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="mockup-qr-item" style="height: 40px;">
+                  <span style="width: 60%;"></span>
+                  <span class="mockup-price" style="background: #38bdf8;"></span>
+                </div>
+                <div class="mockup-qr-item" style="height: 40px;">
+                  <span style="width: 75%;"></span>
+                  <span class="mockup-price" style="background: #38bdf8;"></span>
+                </div>
               </div>
-              <div class="mockup-line" style="width: 60%;"></div>
-              <div class="mockup-line" style="width: 75%; opacity: 0.35;"></div>
-              <div class="mockup-line" style="width: 85%; opacity: 0.2; height: 30px; margin-top: 8px;"></div>
             </div>
           </div>
           <div class="project-info">
-            <h3>LaunchFlow</h3>
-            <p>Cloud workflow automation and developer orchestration pipeline designed for automated task handling and API integration.</p>
+            <span class="project-type-tag">Inventory &amp; POS</span>
+            <h3>SuperMarket POS &amp; Store</h3>
+            <p>Interactive supermarket billing and inventory management application with real-time cart calculations, category filtering, and item search.</p>
             <div class="tech-stack">
-              <span class="tech-tag">Node.js</span>
-              <span class="tech-tag">Express</span>
-              <span class="tech-tag">REST APIs</span>
-              <span class="tech-tag">Docker</span>
+              <span class="tech-tag">JavaScript (ES6+)</span>
+              <span class="tech-tag">HTML5</span>
+              <span class="tech-tag">CSS3</span>
+              <span class="tech-tag">DOM State</span>
             </div>
             <div class="project-links">
-              <a href="https://github.com/yosefmehari/LaunchFlow" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
+              <a href="https://github.com/yosefmehari/super-market" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
             </div>
           </div>
         </div>
 
-        <!-- Project 4: Building the Mind -->
-        <div class="project-card">
+        <!-- Project 6: Building the Mind -->
+        <div class="project-card" data-category="systems">
           <div class="project-preview">
             <div class="mockup-window">
               <div class="mockup-bar">
@@ -746,18 +1675,19 @@
                 <span class="mockup-dot d-green"></span>
               </div>
               <div class="mockup-line" style="width: 50%;"></div>
-              <div class="mockup-line" style="width: 70%; opacity: 0.35;"></div>
-              <div class="mockup-line" style="width: 88%; opacity: 0.2; height: 30px; margin-top: 8px;"></div>
+              <div class="mockup-line" style="width: 75%; opacity: 0.35;"></div>
+              <div class="mockup-line" style="width: 88%; opacity: 0.2; height: 26px; margin-top: 6px;"></div>
             </div>
           </div>
           <div class="project-info">
+            <span class="project-type-tag">Knowledge Platform</span>
             <h3>Building the Mind</h3>
             <p>Interactive knowledge platform and technical documentation hub engineered with structured content hierarchies and clean UI aesthetics.</p>
             <div class="tech-stack">
               <span class="tech-tag">JavaScript</span>
               <span class="tech-tag">Markdown</span>
               <span class="tech-tag">Modern CSS</span>
-              <span class="tech-tag">Web Architecture</span>
+              <span class="tech-tag">Architecture</span>
             </div>
             <div class="project-links">
               <a href="https://github.com/yosefmehari/building-the-mind" target="_blank" rel="noopener noreferrer">GitHub Repo &rarr;</a>
@@ -765,8 +1695,8 @@
           </div>
         </div>
 
-        <!-- Project 5: Shopping Clothes -->
-        <div class="project-card">
+        <!-- Project 7: Shopping Clothes -->
+        <div class="project-card" data-category="ecommerce systems">
           <div class="project-preview">
             <div class="mockup-window">
               <div class="mockup-bar">
@@ -776,10 +1706,11 @@
               </div>
               <div class="mockup-line" style="width: 48%;"></div>
               <div class="mockup-line" style="width: 68%; opacity: 0.35;"></div>
-              <div class="mockup-line" style="width: 90%; opacity: 0.2; height: 30px; margin-top: 8px;"></div>
+              <div class="mockup-line" style="width: 90%; opacity: 0.2; height: 26px; margin-top: 6px;"></div>
             </div>
           </div>
           <div class="project-info">
+            <span class="project-type-tag">Apparel Store</span>
             <h3>Shopping Clothes</h3>
             <p>Sleek apparel retail web application featuring category filtering, interactive product views, and cart state synchronization.</p>
             <div class="tech-stack">
@@ -792,33 +1723,326 @@
             </div>
           </div>
         </div>
+
+      </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section id="workflow">
+      <div class="section-header">
+        <span class="section-tag">// Engineering Process</span>
+        <h2>How I Build Web Products</h2>
+        <p>A systematic approach from conceptualization to reliable cloud deployment.</p>
+      </div>
+
+      <div class="workflow-grid">
+        <div class="workflow-card">
+          <div class="workflow-num">01.</div>
+          <h3>System &amp; Schema Design</h3>
+          <p>Planning data models, defining normalized relationships with Prisma, and designing clear REST/Server Action endpoints before implementation.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-num">02.</div>
+          <h3>Component Architecture</h3>
+          <p>Crafting accessible, modular, and reusable components using React 19 and Tailwind CSS with strict TypeScript interfaces.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-num">03.</div>
+          <h3>Security &amp; Performance</h3>
+          <p>Implementing battle-tested authentication, role authorization, caching strategies, and indexed SQL queries for fast response times.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-num">04.</div>
+          <h3>Automated Deployment</h3>
+          <p>Configuring continuous integration, Docker containerization, and seamless Vercel production releases with zero downtime.</p>
+        </div>
       </div>
     </section>
 
     <!-- Contact Section -->
     <section id="contact">
-      <div class="contact-card">
-        <h2>Ready to build something exceptional?</h2>
-        <p>Currently open to full-stack engineering roles, freelance contracts, and collaborative software projects.</p>
-        <a href="mailto:your.email@example.com" class="btn btn-primary">Start a Conversation &rarr;</a>
+      <div class="contact-container">
+        <div class="contact-info">
+          <div>
+            <h2>Let's build something exceptional together.</h2>
+            <p>Currently open to full-stack software engineering roles, freelance contracts, and high-impact web development collaborations.</p>
+
+            <div class="contact-items">
+              <!-- Direct Email Item -->
+              <div class="contact-item">
+                <span class="contact-item-icon">✉️</span>
+                <div class="contact-item-detail">
+                  <span class="contact-item-label">Direct Email</span>
+                  <span class="contact-item-val" id="email-address">yosefmehari2404@gmail.com</span>
+                </div>
+                <button class="copy-btn" id="copy-email-btn" onclick="copyEmail()">Copy</button>
+              </div>
+
+              <!-- GitHub Profile Item -->
+              <a href="https://github.com/yosefmehari" target="_blank" rel="noopener noreferrer" class="contact-item">
+                <span class="contact-item-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </span>
+                <div class="contact-item-detail">
+                  <span class="contact-item-label">GitHub Profile</span>
+                  <span class="contact-item-val">github.com/yosefmehari</span>
+                </div>
+                <span style="color: var(--accent); font-size: 0.9rem;">&nearr;</span>
+              </a>
+
+              <!-- Status Item -->
+              <div class="contact-item">
+                <span class="contact-item-icon">📍</span>
+                <div class="contact-item-detail">
+                  <span class="contact-item-label">Availability &amp; Location</span>
+                  <span class="contact-item-val">Available for Remote / Relocation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="mailto:yosefmehari2404@gmail.com" class="btn btn-primary" style="display: inline-flex; align-self: flex-start;">
+            Launch Email Client &rarr;
+          </a>
+        </div>
+
+        <!-- Interactive Direct Message Form -->
+        <form class="contact-form" id="contact-form" onsubmit="handleFormSubmit(event)">
+          <div class="form-group">
+            <label for="sender-name">Your Name</label>
+            <input type="text" id="sender-name" placeholder="Alex Rivers" required />
+          </div>
+
+          <div class="form-group">
+            <label for="sender-email">Your Email</label>
+            <input type="email" id="sender-email" placeholder="alex@company.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="message-subject">Subject</label>
+            <select id="message-subject">
+              <option value="Project Collaboration">Project Collaboration / Freelance</option>
+              <option value="Full-Time Engineering Role">Full-Time Software Engineer Role</option>
+              <option value="Contract / Consultation">Contract / Consultation</option>
+              <option value="General Inquiry">General Inquiry</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="sender-msg">Message</label>
+            <textarea id="sender-msg" placeholder="Tell me about your project, goals, or open position..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            Send Message &rarr;
+          </button>
+
+          <div class="form-success-msg" id="form-feedback">
+            ✓ Message prepared! Opening your mail client now...
+          </div>
+        </form>
       </div>
     </section>
   </main>
 
+  <!-- Floating Back to Top Button -->
+  <button id="back-to-top" onclick="scrollToTop()" aria-label="Back to top of page">
+    &uarr;
+  </button>
+
+  <!-- Footer -->
   <footer>
-    <p>&copy; 2026 Yosef. Built with clean code, modern typography, and responsive architecture.</p>
+    <div class="footer-content">
+      <div class="logo">
+        &lt;Yosef<span>/&gt;</span>
+      </div>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#skills">Tech Stack</a>
+        <a href="#projects">Featured Work</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#contact">Contact</a>
+        <a href="https://github.com/yosefmehari" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p>&copy; 2026 Yosef Mehari. Built with clean code, modern typography, and responsive architecture.</p>
+    </div>
   </footer>
 
   <script>
-    // Smooth dynamic ambient cursor light
+    // Smooth dynamic ambient cursor light with requestAnimationFrame
     const cursor = document.getElementById('cursor-glow');
-    window.addEventListener('mousemove', (e) => {
-      cursor.style.opacity = '1';
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+    let isMoving = false;
+
+    if (cursor && window.matchMedia('(hover: hover)').matches) {
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!isMoving) {
+          cursor.style.opacity = '1';
+          isMoving = true;
+          requestAnimationFrame(updateCursor);
+        }
+      });
+
+      function updateCursor() {
+        cursorX += (mouseX - cursorX) * 0.2;
+        cursorY += (mouseY - cursorY) * 0.2;
+        cursor.style.left = `${cursorX}px`;
+        cursor.style.top = `${cursorY}px`;
+
+        if (Math.abs(mouseX - cursorX) > 0.1 || Math.abs(mouseY - cursorY) > 0.1) {
+          requestAnimationFrame(updateCursor);
+        } else {
+          isMoving = false;
+        }
+      }
+
+      window.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+      });
+    }
+
+    // Mobile Hamburger Menu
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-drawer');
+      const backdrop = document.getElementById('mobile-backdrop');
+      const toggle = document.getElementById('mobile-toggle');
+      
+      const isOpen = drawer.classList.contains('open');
+      if (isOpen) {
+        drawer.classList.remove('open');
+        backdrop.classList.remove('open');
+        toggle.classList.remove('open');
+        document.body.style.overflow = '';
+      } else {
+        drawer.classList.add('open');
+        backdrop.classList.add('open');
+        toggle.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    // Close mobile drawer on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const drawer = document.getElementById('mobile-drawer');
+        if (drawer && drawer.classList.contains('open')) {
+          toggleMobileMenu();
+        }
+      }
     });
-    window.addEventListener('mouseleave', () => {
-      cursor.style.opacity = '0';
+
+    // Project Category Filtering
+    function filterProjects(category, btnElement) {
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        const itemCategories = card.getAttribute('data-category') || '';
+        if (category === 'all' || itemCategories.includes(category)) {
+          card.style.display = 'flex';
+          card.style.opacity = '0';
+          setTimeout(() => {
+            card.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+            card.style.opacity = '1';
+          }, 20);
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 1-Click Copy Email to Clipboard
+    function copyEmail() {
+      const email = 'yosefmehari2404@gmail.com';
+      const btn = document.getElementById('copy-email-btn');
+      navigator.clipboard.writeText(email).then(() => {
+        btn.textContent = 'Copied!';
+        btn.style.background = '#10b981';
+        btn.style.color = '#fff';
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2200);
+      }).catch(() => {
+        // Fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = email;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+        }, 2200);
+      });
+    }
+
+    // Direct Contact Form Handler
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('sender-name').value;
+      const email = document.getElementById('sender-email').value;
+      const subject = document.getElementById('message-subject').value;
+      const msg = document.getElementById('sender-msg').value;
+
+      const feedback = document.getElementById('form-feedback');
+      feedback.style.display = 'block';
+
+      const mailtoUrl = `mailto:yosefmehari2404@gmail.com?subject=${encodeURIComponent(`[Portfolio] ${subject} from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${msg}`)}`;
+      
+      window.location.href = mailtoUrl;
+
+      setTimeout(() => {
+        feedback.textContent = '✓ Message launched in mail client! Thank you.';
+      }, 1500);
+    }
+
+    // Floating Back to Top Button
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Active Navigation Highlight on Scroll (ScrollSpy)
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+
+    window.addEventListener('scroll', () => {
+      let currentSection = '';
+      const scrollPos = window.scrollY + 160;
+
+      sections.forEach(section => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        if (scrollPos >= top && scrollPos < top + height) {
+          currentSection = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+          link.classList.add('active');
+        }
+      });
     });
   </script>
 </body>
